@@ -1,0 +1,8 @@
+chromedriver
+csvdata
+.ipynb_checkpoints
+.vscodecsvdata
+results 
+notebooks 
+config.py
+.pycache

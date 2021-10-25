@@ -9,4 +9,4 @@ Scraped data is now stored in Azure SQL database and contains information about:
 - heart notes 
 - top notes
 
-Now project is on stage of extracting data from Sephora website with people's reactions.
+Project is on stage of extracting data from Sephora website with people's reactions.

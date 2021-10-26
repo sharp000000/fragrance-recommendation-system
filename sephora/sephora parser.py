@@ -8,6 +8,7 @@ import pandas as pd
 import time
 import warnings 
 warnings.filterwarnings("ignore")
+import os 
 
 
 base_url = 'https://www.sephora.com'
@@ -28,23 +29,24 @@ def collect_parfume_links(pages):
     for page in range(1, pages+1):
         driver.get('{0}?currentPage={1}'.format(url, page))
         y = 0
-        # print(driver.execute_script('return document.body.scrollHeight;'))
         while y < driver.execute_script('return document.body.scrollHeight;'):
-            driver.execute_script("window.scrollTo(0, "+str(y)+")")
+            driver.execute_script("window.scrollTo(0, " + str(y) + ")")
             y += 100
-            time.sleep(1)
+            time.sleep(0.7)
         parsed_html = BeautifulSoup(driver.page_source, 'html.parser')
         
         for i in parsed_html.find_all('div', 'css-1322gsb'):
             for a in i.find_all('a', href=True):
-                parfume_links.append('{0}{1}'.format(base_url, a['href']))
+                parfume_links.append('{}'.format(a['href']))
 
     return parfume_links
 
+def save_parfume_links(filename):
+    pages = get_pages(url, css_class_pages)
+    parfume_links = collect_parfume_links(pages)
 
-pages = get_pages(url, css_class_pages)
-parfume_links = collect_parfume_links(pages)
+    if not os.path.exists(filename):
+        with open(filename, 'w') as f:
+            for item in parfume_links:
+                f.write("%s\n" % item)
 
-with open('parfume_links.txt', 'w') as f:
-    for item in parfume_links:
-        f.write("%s\n" % item)
